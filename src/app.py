@@ -4,9 +4,14 @@ import streamlit as st
 import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler
+import os
 
 # ---- Step 1: Load Random Forest model ----
-MODEL_PATH = "../models/Random_Forest_model.pkl"
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+MODEL_PATH = os.path.join(BASE_DIR, "models", "Random_Forest_model.pkl")
+
 model = joblib.load(MODEL_PATH)
 
 # ---- Step 2: Load feature columns ----
@@ -50,3 +55,4 @@ new_data_scaled = scaler.fit_transform(new_data)
 if st.button("Predict Life Expectancy"):
     pred = model.predict(new_data_scaled)
     st.success(f"Predicted Life Expectancy: {round(pred[0], 2)} years")
+
